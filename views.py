@@ -67,3 +67,7 @@ def delete_food(request, food_id):
 def reset_day(request):
     Food.objects.get(user=request.user, date_added=timezone.now().date()).delete()
     return redirect('index')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
