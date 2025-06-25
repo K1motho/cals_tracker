@@ -1,21 +1,38 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %} Login{% endblock title %}
-{% block content %}
-<div class="bg-gray-800 p-4">
-    <form action="submit" class="space-y-4"> 
-        <input type="text"  placeholder="enter username" required 
-            class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        > 
-        <input  type="text" placeholder="enter email"  required 
-            class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        > 
-        <input type="number" placeholder="confirm pin" 
-            class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        > 
-        <input  type="button" value="submit" 
-            class="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer">
-<img src="{% static 'images/the-sinister-jj-1920x1080 (1).jpg' %}" alt="image">      
-        
+<form method="POST" action="{% url 'login' %}" class="space-y-4">
+  {% csrf_token %}
+  
+  <input
+    type="text"
+    name="username"
+    placeholder="Enter username"
+    required
+    class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+  />
 
- {% endblock content %}
+  {% comment %} <input
+    type="email"
+    name="email"
+    placeholder="Enter email"
+    required
+    class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+  /> {% endcomment %}
+
+  <input
+    type="password"
+    name="password"
+    placeholder="Confirm password"
+    required
+    class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+  />
+
+  <button
+    type="submit"
+    class="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer"
+  >
+    Submit
+  </button>
+  <p class="text-sm mt-4">
+  Don’t have an account?
+  <a href="{% url 'signup' %}" class="text-blue-600 hover:underline">Sign up here</a>
+</p>
+</form>

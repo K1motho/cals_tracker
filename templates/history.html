@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Calorie History{% endblock title %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">📅 Calorie History</h1>
+
+{% if history %}
+  <ul class="divide-y divide-gray-300">
+    {% for day in history %}
+      <li class="py-2 flex justify-between">
+        <span>{{ day.date_added }}</span>
+        <span class="font-semibold">{{ day.total_calories }} kcal</span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-gray-600">No calorie history available yet.</p>
+{% endif %}
+{% endblock content %}

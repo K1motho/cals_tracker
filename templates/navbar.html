@@ -1,0 +1,35 @@
+<nav class="bg-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <a href="{% url 'index' %}" class="text-xl font-bold text-green-600">
+      🥗 Calorie Tracker
+    </a>
+    
+    <div class="flex items-center space-x-6">
+      {% if user.is_authenticated %}
+        <a href="{% url 'history' %}" class="text-gray-700 hover:underline">
+          History
+        </a>
+        
+        <span class="text-sm text-gray-600">Hi, {{ user.username }}</span>
+        
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="text-red-500 hover:underline bg-transparent border-none cursor-pointer p-0 text-sm"
+          >
+            Logout
+          </button>
+        </form>
+      
+      {% else %}
+        <a href="{% url 'login' %}" class="text-blue-600 hover:underline">
+          Login
+        </a>
+        <a href="{% url 'signup' %}" class="text-blue-600 hover:underline">
+          Sign Up
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</nav>

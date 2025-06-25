@@ -4,20 +4,24 @@ from django.contrib.auth.decorators import login_required
 from .models import Food
 from .forms import CreateUser
 from django.utils import timezone
+from django.db.models import Sum  # ✅ Required for annotation
 import requests
 
-# Create your views here.
+# -----------------------
+# USER AUTHENTICATION VIEWS
+# -----------------------
 
 def signup_view(request):
     if request.method == 'POST':
         form = CreateUser(request.POST)
         if form.is_valid():
-            user = form.save()  # Fixed: called save() method
+            user = form.save()
             login(request, user)
+            print("seccesfuly logged in")
             return redirect('index')
     else:
         form = CreateUser()
-    return render(request, 'c_app/signup.html', {'form': form})  # Fixed: 'rorm' ➜ 'form'
+    return render(request, 'signup.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
@@ -29,14 +33,24 @@ def login_view(request):
             login(request, user)
             return redirect('index')
         else:
-            return render(request, 'c_app/login.html', {'error': 'Invalid Credentials'})
-    return render(request, 'c_app/login.html')
+            return render(request, 'login.html', {'error': 'Invalid Credentials'})
+    print("seccesfuly logged in")
+    return render(request, 'login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+# -----------------------
+# CORE FUNCTIONAL VIEWS
+# -----------------------
 
 @login_required
 def index(request):
-    foods = Food.objects.filter(user=request.user, date_added=timezone.now().date())  # Fixed: .objects.filter
+    today = timezone.now().date()
+    foods = Food.objects.filter(user=request.user, date_added=today)
     total = sum(food.calories for food in foods)
-    return render(request, 'c_app/index.html', {
+    return render(request, 'index.html', {
         'foods': foods,
         'total_cals': total
     })
@@ -56,23 +70,35 @@ def add_food(request):
             response = requests.get(url, params=params)
             try:
                 product = response.json()['products'][0]
-                calories = int(float(product.get('nutriments', {}).get('energy-kcal_100g', 0)))  # Fixed key
+                calories = int(float(product.get('nutriments', {}).get('energy-kcal_100g', 0)))
             except (KeyError, IndexError, ValueError):
                 calories = 0
 
-            Food.objects.create(user=request.user, name=name.title(), calories=calories)  # Fixed: .objects.create
+            Food.objects.create(user=request.user, name=name.title(), calories=calories)
     return redirect('index')
 
 @login_required
 def delete_food(request, food_id):
-    Food.objects.get(id=food_id, user=request.user).delete()
+    Food.objects.filter(id=food_id, user=request.user).delete()
     return redirect('index')
 
 @login_required
 def reset_day(request):
-    Food.objects.filter(user=request.user, date_added=timezone.now().date()).delete()  # Fixed: filter instead of get
+    today = timezone.now().date()
+    Food.objects.filter(user=request.user, date_added=today).delete()
     return redirect('index')
 
-def logout_view(request):
-    logout(request)
-    return redirect('login')
+# -----------------------
+# HISTORY VIEW
+# -----------------------
+
+@login_required
+def history(request):
+    history_data = (
+        Food.objects
+        .filter(user=request.user)
+        .values('date_added')  
+        .annotate(total_calories=Sum('calories'))  
+        .order_by('-date_added')
+    )
+    return render(request, 'history.html', {'history': history_data})
