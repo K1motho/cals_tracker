@@ -1,32 +1,35 @@
-<nav class="bg-white shadow-md">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <a href="{% url 'index' %}" class="text-xl font-bold text-green-600">
+<nav class="bg-gradient-to-r from-[#20232a] via-[#2c313c] to-[#1e2228] shadow-lg border-b border-gray-700">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    
+    <!-- Logo -->
+    <a href="{% url 'index' %}" class="text-2xl font-extrabold text-green-400 tracking-wide hover:text-green-300 transition">
       🥗 Calorie Tracker
     </a>
     
+    <!-- Nav links -->
     <div class="flex items-center space-x-6">
       {% if user.is_authenticated %}
-        <a href="{% url 'history' %}" class="text-gray-700 hover:underline">
+        <a href="{% url 'history' %}" class="text-gray-300 hover:text-white transition duration-200 font-medium">
           History
         </a>
-        
-        <span class="text-sm text-gray-600">Hi, {{ user.username }}</span>
-        
+
+        <span class="text-sm text-gray-400">Hi, <span class="font-semibold text-white">{{ user.username }}</span></span>
+
         <form method="POST" action="{% url 'logout' %}">
           {% csrf_token %}
           <button
             type="submit"
-            class="text-red-500 hover:underline bg-transparent border-none cursor-pointer p-0 text-sm"
+            class="text-red-400 hover:text-red-300 transition duration-200 font-medium bg-transparent border-none cursor-pointer text-sm"
           >
             Logout
           </button>
         </form>
       
       {% else %}
-        <a href="{% url 'login' %}" class="text-blue-600 hover:underline">
+        <a href="{% url 'login' %}" class="text-blue-400 hover:text-blue-300 font-medium transition">
           Login
         </a>
-        <a href="{% url 'signup' %}" class="text-blue-600 hover:underline">
+        <a href="{% url 'signup' %}" class="text-blue-400 hover:text-blue-300 font-medium transition">
           Sign Up
         </a>
       {% endif %}

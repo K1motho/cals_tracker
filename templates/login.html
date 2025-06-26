@@ -1,38 +1,40 @@
-<form method="POST" action="{% url 'login' %}" class="space-y-4">
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST" action="{% url 'login' %}" class="space-y-6 max-w-md mx-auto bg-[#1f232a] p-8 rounded-lg shadow-lg">
   {% csrf_token %}
-  
+
+  <h2 class="text-3xl font-extrabold text-green-400 mb-6 text-center">Welcome Back</h2>
+
   <input
     type="text"
     name="username"
     placeholder="Enter username"
     required
-    class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    class="w-full p-3 bg-gray-800 text-gray-200 border border-gray-600 rounded placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
   />
-
-  {% comment %} <input
-    type="email"
-    name="email"
-    placeholder="Enter email"
-    required
-    class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-  /> {% endcomment %}
 
   <input
     type="password"
     name="password"
-    placeholder="Confirm password"
+    placeholder="Enter password"
     required
-    class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    class="w-full p-3 bg-gray-800 text-gray-200 border border-gray-600 rounded placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
   />
 
   <button
     type="submit"
-    class="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer"
+    class="w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded shadow focus:outline-none focus:ring-4 focus:ring-green-400 transition"
   >
     Submit
   </button>
-  <p class="text-sm mt-4">
-  Don’t have an account?
-  <a href="{% url 'signup' %}" class="text-blue-600 hover:underline">Sign up here</a>
-</p>
+
+  <p class="text-center text-gray-400 text-sm mt-4">
+    Don’t have an account? 
+    <a href="{% url 'signup' %}" class="text-green-400 hover:underline font-semibold">
+      Sign up here
+    </a>
+  </p>
 </form>
+
+{% endblock content %}
+

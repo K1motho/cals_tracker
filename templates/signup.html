@@ -2,68 +2,80 @@
 {% block title %}SIGN UP FORM{% endblock title %}
 
 {% block content %}
-<div class="bg-gray-800 p-6 max-w-md mx-auto rounded-lg">
-  <form method="POST" action="{% url 'signup' %}" class="space-y-6">
-    {% csrf_token %}
-    
-    {% if form.non_field_errors %}
-      <div class="text-red-400 mb-4">
-        {{ form.non_field_errors }}
+<!-- Full viewport height container with dark bg and flex center -->
+<div class="min-h-screen bg-gradient-to-br from-[#1a1d23] via-[#1e2229] to-[#181c22] flex items-center justify-center px-4 py-12">
+
+  <!-- Card-style form container -->
+  <div class="bg-gray-900 bg-opacity-90 shadow-lg rounded-lg max-w-md w-full p-8">
+
+    <h2 class="text-3xl font-extrabold text-green-400 mb-8 text-center">Create your account</h2>
+
+    <form method="POST" action="{% url 'signup' %}" class="space-y-6">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="text-red-500 text-center mb-4 font-semibold">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <!-- Username -->
+      <div>
+        <label for="id_username" class="block mb-1 text-gray-300 font-semibold">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="id_username"
+          value="{{ form.username.value|default_if_none:'' }}"
+          required
+          class="w-full p-3 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+          placeholder="Enter your username"
+        />
+        {% for error in form.username.errors %}
+          <p class="text-red-500 mt-1 text-sm">{{ error }}</p>
+        {% endfor %}
       </div>
-    {% endif %}
 
-    <!-- Username -->
-    <div>
-      <label for="id_username" class="block mb-1 text-white font-semibold">Username</label>
-      <input
-        type="text"
-        name="username"
-        id="id_username"
-        value="{{ form.username.value|default_if_none:'' }}"
-        required
-        class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      />
-      {% for error in form.username.errors %}
-        <p class="text-red-400 text-sm">{{ error }}</p>
-      {% endfor %}
-    </div>
+      <!-- Password -->
+      <div>
+        <label for="id_password1" class="block mb-1 text-gray-300 font-semibold">Password</label>
+        <input
+          type="password"
+          name="password1"
+          id="id_password1"
+          required
+          class="w-full p-3 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+          placeholder="Enter your password"
+        />
+        {% for error in form.password1.errors %}
+          <p class="text-red-500 mt-1 text-sm">{{ error }}</p>
+        {% endfor %}
+      </div>
 
-    <!-- Password -->
-    <div>
-      <label for="id_password1" class="block mb-1 text-white font-semibold">Password</label>
-      <input
-        type="password"
-        name="password1"
-        id="id_password1"
-        required
-        class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      />
-      {% for error in form.password1.errors %}
-        <p class="text-red-400 text-sm">{{ error }}</p>
-      {% endfor %}
-    </div>
+      <!-- Confirm Password -->
+      <div>
+        <label for="id_password2" class="block mb-1 text-gray-300 font-semibold">Confirm Password</label>
+        <input
+          type="password"
+          name="password2"
+          id="id_password2"
+          required
+          class="w-full p-3 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+          placeholder="Confirm your password"
+        />
+        {% for error in form.password2.errors %}
+          <p class="text-red-500 mt-1 text-sm">{{ error }}</p>
+        {% endfor %}
+      </div>
 
-    <!-- Confirm Password -->
-    <div>
-      <label for="id_password2" class="block mb-1 text-white font-semibold">Confirm Password</label>
-      <input
-        type="password"
-        name="password2"
-        id="id_password2"
-        required
-        class="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      />
-      {% for error in form.password2.errors %}
-        <p class="text-red-400 text-sm">{{ error }}</p>
-      {% endfor %}
-    </div>
+      <button
+        type="submit"
+        class="w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded shadow focus:outline-none focus:ring-4 focus:ring-green-400 transition"
+      >
+        Sign Up
+      </button>
+    </form>
 
-    <button
-      type="submit"
-      class="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-    >
-      Sign Up
-    </button>
-  </form>
+  </div>
 </div>
 {% endblock content %}
